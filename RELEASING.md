@@ -1,144 +1,200 @@
-# Procedimento de Release
+# Release
 
-Este repositório publica no npm automaticamente quando uma tag `v*` é enviada ao GitHub. **Não rode `npm publish` manualmente** — a máquina local não deve ter credenciais de publicação.
+Publicação no npm é automática via GitHub Actions quando uma tag `v*` é pushada. **Não rode `npm publish` manualmente** — a máquina local não tem (nem deve ter) credenciais de publicação.
 
-## Pré-requisitos
-
-- Permissão **Write** no repositório
-- Todas as mudanças desejadas já mergeadas na `main`
-- `git` configurado com seu usuário
-
-## Passo a passo
-
-### 1. Puxe a `main` atualizada
-
-```bash
-git checkout main
-git pull
-```
-
-### 2. Decida o tipo de bump
-
-Seguimos [SemVer](https://semver.org/lang/pt-BR/):
-
-| Tipo | Quando usar | Exemplo |
-|---|---|---|
-| `patch` | Correção de bug, ajuste de docs, dependência interna | `6.1.1 → 6.1.2` |
-| `minor` | Funcionalidade nova compatível, nova tool, mudança de UX relevante | `6.1.2 → 6.2.0` |
-| `major` | Breaking change (mudança que quebra configuração ou comportamento existente) | `6.2.0 → 7.0.0` |
-
-**Na dúvida, é `minor`.** Nunca use `patch` pra feature nova.
-
-### 3. Atualize o `CHANGELOG.md`
-
-Abra `CHANGELOG.md` e adicione a nova entrada **no topo** (abaixo do cabeçalho), seguindo o formato existente:
-
-```markdown
-## [X.Y.Z] — YYYY-MM-DD
-
-### Adicionado
-- ...
-
-### Mudou
-- ...
-
-### Corrigido
-- ...
-```
-
-Use hoje como data.
-
-### 4. Bump da versão + criação da tag
-
-Use o comando `npm version` — ele bumpa `package.json`, faz um commit e cria a tag num só passo:
-
-```bash
-npm version patch   # 6.1.1 → 6.1.2
-# ou
-npm version minor   # 6.1.1 → 6.2.0
-# ou
-npm version major   # 6.1.1 → 7.0.0
-```
-
-Verifique:
-
-```bash
-git log -1               # último commit deve ser "v6.1.2" ou similar
-git tag --list 'v*' --sort=-v:refname | head   # tag nova no topo
-cat package.json | grep '"version"'            # bate com a tag
-```
-
-### 5. Commite o `CHANGELOG.md` junto
-
-O `npm version` cria o commit só do `package.json`. Precisamos juntar o CHANGELOG:
-
-```bash
-git add CHANGELOG.md
-git commit --amend --no-edit
-# Recria a tag apontando pro commit amended:
-git tag -f v$(node -p "require('./package.json').version")
-```
-
-> Fluxo alternativo: rode `npm version` **depois** de commitar o CHANGELOG separado na `main` (via PR). Aí não precisa amend.
-
-### 6. Push do commit + tag
-
-```bash
-git push origin main
-git push origin v$(node -p "require('./package.json').version")
-```
-
-### 7. Acompanhe a publicação
-
-```bash
-gh run watch --exit-status
-```
-
-Ou abra https://github.com/expertintegrado/pipedrive-mcp/actions — o workflow `Release` deve rodar em ~15 segundos e:
-
-1. Publicar o pacote no npm (`@expertintegrado/pipedrive-mcp@X.Y.Z`)
-2. Criar uma GitHub Release com release notes automáticas
-
-### 8. Verifique
-
-```bash
-npm view @expertintegrado/pipedrive-mcp version
-# Deve mostrar a versão que você acabou de publicar
-```
-
-E confira https://www.npmjs.com/package/@expertintegrado/pipedrive-mcp — a nova versão deve aparecer no topo.
+Este documento é executável por uma IA. Se você é humano, peça ao Claude Code: *"Faça uma release patch/minor/major seguindo o RELEASING.md."*
 
 ---
 
-## O que fazer se o workflow falhar
-
-### Erro: versão do `package.json` não bate com a tag
-
-O workflow valida isso. Se cair nesse erro, significa que você criou a tag apontando pra um commit onde `package.json` ainda estava na versão antiga. Delete a tag e refaça:
+## Pré-requisitos (verificar antes de começar)
 
 ```bash
-git tag -d v6.1.2
-git push origin :v6.1.2      # apaga no remoto
-# Corrija o package.json, commite, e recrie a tag
+# 1. Deve estar na main atualizada
+git rev-parse --abbrev-ref HEAD   # deve retornar: main
+git fetch && git status -uno      # deve dizer: up to date with origin/main
+
+# 2. Working tree limpa
+git status --porcelain            # deve retornar vazio
+
+# 3. Secret NPM_TOKEN existe no GitHub
+gh secret list --repo expertintegrado/pipedrive-mcp | grep -q NPM_TOKEN || echo "FALTA NPM_TOKEN"
 ```
 
-### Erro: 401/403 no npm publish
+Se qualquer verificação falhar, pare e corrija antes de prosseguir.
 
-Token do secret `NPM_TOKEN` expirou ou foi revogado. Admin gera um novo em https://www.npmjs.com/settings/~/tokens (Granular, bypass 2FA, Read+Write no package) e atualiza o secret em https://github.com/expertintegrado/pipedrive-mcp/settings/secrets/actions.
+---
 
-### Publiquei a versão errada por engano
+## Escolha do tipo de bump
 
-**Não dá pra sobrescrever uma versão no npm.** Publique uma versão nova (bump patch) com a correção. Em casos excepcionais, `npm unpublish` é possível **em até 72h** após a publicação, mas é desencorajado — prefira publicar uma versão nova.
+Seguimos [SemVer](https://semver.org/lang/pt-BR/):
+
+| Tipo | Usar quando | Exemplo |
+|---|---|---|
+| `patch` | Bug fix, ajuste de docs, dependência interna (sem mudança de comportamento visível) | 6.1.1 → 6.1.2 |
+| `minor` | Feature nova compatível, nova tool, mudança de UX que não quebra configs existentes | 6.1.2 → 6.2.0 |
+| `major` | Breaking change (muda configuração, env var, ou comportamento público existente) | 6.2.0 → 7.0.0 |
+
+Regra de ouro: **se algum usuário já instalado precisa mudar algo pra continuar funcionando, é major**.
+
+---
+
+## Procedimento
+
+Execute na ordem, sem pular etapas. Substitua `<TIPO>` por `patch`, `minor` ou `major`.
+
+### 1. Atualizar CHANGELOG.md
+
+Calcule a próxima versão e a data de hoje:
+
+```bash
+CURRENT=$(node -p "require('./package.json').version")
+NEXT=$(node -p "const [M,m,p]=require('./package.json').version.split('.').map(Number); const t='<TIPO>'; t==='major'?\`\${M+1}.0.0\`:t==='minor'?\`\${M}.\${m+1}.0\`:\`\${M}.\${m}.\${p+1}\`")
+TODAY=$(date +%Y-%m-%d)
+echo "Bumping $CURRENT -> $NEXT ($TODAY)"
+```
+
+Adicione uma seção no topo do `CHANGELOG.md` (abaixo do cabeçalho, acima da versão atual) no formato:
+
+```markdown
+## [$NEXT] — $TODAY
+
+### Adicionado
+- <itens novos, se houver>
+
+### Mudou
+- <mudancas em comportamento existente>
+
+### Corrigido
+- <bugs corrigidos>
+```
+
+Omita as seções vazias. Liste cada item com o **porquê** da mudança, não só o "quê".
+
+### 2. Commitar o CHANGELOG
+
+```bash
+git add CHANGELOG.md
+git commit -m "docs(changelog): entrada para $NEXT"
+```
+
+### 3. Bump version + criar tag
+
+O comando `npm version` atualiza `package.json`, cria um commit e cria a tag num passo só:
+
+```bash
+npm version <TIPO>
+# Saída esperada: "v$NEXT"
+```
+
+Verificação:
+
+```bash
+# Versão do package.json bate com a tag
+test "$(node -p 'require("./package.json").version')" = "$(git describe --tags --exact-match)" \
+  && echo "OK: package.json e tag sincronizados" \
+  || echo "ERRO: desincronizado"
+```
+
+### 4. Push
+
+```bash
+git push origin main
+git push origin "v$NEXT"
+```
+
+### 5. Acompanhar o workflow
+
+```bash
+sleep 5
+gh run watch --exit-status
+```
+
+Esperado: job `publish` completa em ~15s, verde.
+
+### 6. Verificar publicação
+
+```bash
+# Versão no registry deve ser a nova
+npm view @expertintegrado/pipedrive-mcp version
+
+# GitHub Release deve existir
+gh release view "v$NEXT" --repo expertintegrado/pipedrive-mcp
+```
+
+Ambos devem mostrar `$NEXT`.
+
+---
+
+## Falhas comuns
+
+### Workflow falha: "Unauthorized" / "403" no `npm publish`
+
+O `NPM_TOKEN` expirou ou foi revogado.
+
+```bash
+# Confirmar que o secret existe:
+gh secret list --repo expertintegrado/pipedrive-mcp | grep NPM_TOKEN
+```
+
+Ação: gerar novo Granular Access Token em https://www.npmjs.com/settings/~/tokens com:
+- Bypass 2FA ✅
+- Read and write
+- Scope no package `@expertintegrado/pipedrive-mcp`
+
+Atualizar secret:
+```bash
+gh secret set NPM_TOKEN --repo expertintegrado/pipedrive-mcp
+```
+
+Refazer apenas o último passo (re-push da tag não funciona — já foi consumida). Use `workflow_dispatch`:
+
+```bash
+gh workflow run release.yml --repo expertintegrado/pipedrive-mcp
+```
+
+### Workflow falha: "version already published"
+
+A versão do `package.json` já existe no npm. Não é possível republicar a mesma versão.
+
+Ação: apague a tag local e remota, bumpe de novo:
+
+```bash
+git tag -d "v$NEXT"
+git push origin ":v$NEXT"
+# Volte ao passo 3 com um bump maior (ex: se tentou patch, vá pra minor)
+```
+
+### Esqueci de atualizar o CHANGELOG antes do `npm version`
+
+A tag já foi criada apontando pra um commit sem CHANGELOG. Não precisa refazer:
+
+```bash
+# Adicionar entrada no CHANGELOG.md como descrito no passo 1
+git add CHANGELOG.md
+git commit -m "docs(changelog): entrada para $NEXT (post-bump)"
+git push origin main
+```
+
+A release já publicada no npm não mudará, mas a `main` fica consistente. Na próxima release, o CHANGELOG estará correto.
+
+### Preciso reverter uma publicação
+
+**Não é possível sobrescrever uma versão no npm.** Opções:
+
+1. **Preferencial:** publicar uma versão nova (`patch`) com a correção.
+2. **Excepcional:** `npm unpublish @expertintegrado/pipedrive-mcp@X.Y.Z` dentro de 72h da publicação. Desencorajado — quebra instalações de quem já pegou a versão.
 
 ---
 
 ## Checklist rápido
 
-- [ ] `main` atualizada localmente
-- [ ] Entrada no `CHANGELOG.md` com data de hoje
-- [ ] `npm version <patch|minor|major>` rodado
-- [ ] `CHANGELOG.md` amendado no commit de bump
-- [ ] `git push origin main`
-- [ ] `git push origin vX.Y.Z`
-- [ ] Workflow passou verde
-- [ ] `npm view @expertintegrado/pipedrive-mcp version` retorna a versão nova
+```
+[ ] Pré-requisitos passam (main atualizada, tree limpa, NPM_TOKEN existe)
+[ ] CHANGELOG.md tem entrada nova com data de hoje
+[ ] git commit do CHANGELOG
+[ ] npm version <patch|minor|major>
+[ ] git push origin main
+[ ] git push origin v<versão>
+[ ] gh run watch --exit-status passa verde
+[ ] npm view @expertintegrado/pipedrive-mcp version retorna a nova versão
+```
