@@ -7,11 +7,11 @@ labels: enhancement
 
 ## Problema
 
-Qual dor essa feature resolve? Ex: "Nao consigo fazer X sem sair do Claude."
+Qual dor essa feature resolve? Ex: "Não consigo fazer X sem sair do Claude."
 
-## Solucao proposta
+## Solução proposta
 
-O que voce gostaria que o MCP fizesse.
+O que você gostaria que o MCP fizesse.
 
 ## Alternativas consideradas
 

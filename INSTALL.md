@@ -1,23 +1,23 @@
-# Guia de instalacao
+# Guia de instalação
 
-Este guia cobre os tres modos de instalacao do Pipedrive MCP.
+Este guia cobre os três modos de instalação do Pipedrive MCP.
 
 - [Modo 1 — `npx` (recomendado)](#modo-1--npx-recomendado)
 - [Modo 2 — `npm install -g`](#modo-2--npm-install--g)
 - [Modo 3 — `git clone` (contribuidores)](#modo-3--git-clone-contribuidores)
 - [Obtendo o token do Pipedrive](#obtendo-o-token-do-pipedrive)
 - [Configurando o cliente MCP](#configurando-o-cliente-mcp)
-- [Primeira sincronizacao](#primeira-sincronizacao)
+- [Primeira sincronização](#primeira-sincronizacao)
 
 ---
 
-## Pre-requisitos
+## Pré-requisitos
 
 1. **Node.js 18 ou superior**. Verifique com:
    ```bash
    node --version
    ```
-   Nao tem? [Baixar aqui](https://nodejs.org/). Reinicie o computador apos instalar.
+   Não tem? [Baixar aqui](https://nodejs.org/). Reinicie o computador após instalar.
 
 2. **Um cliente MCP** instalado, tipicamente:
    - [Claude Code](https://claude.ai/download) (CLI no terminal)
@@ -25,7 +25,7 @@ Este guia cobre os tres modos de instalacao do Pipedrive MCP.
 
 ## Modo 1 — `npx` (recomendado)
 
-Nao precisa clonar nada. O cliente MCP baixa o pacote automaticamente na primeira execucao.
+Não precisa clonar nada. O cliente MCP baixa o pacote automaticamente na primeira execução.
 
 Pule direto para [Configurando o cliente MCP](#configurando-o-cliente-mcp) usando este bloco:
 
@@ -46,7 +46,7 @@ Pule direto para [Configurando o cliente MCP](#configurando-o-cliente-mcp) usand
 
 ## Modo 2 — `npm install -g`
 
-Se voce nao quer depender do `npx` baixar toda vez:
+Se você não quer depender do `npx` baixar toda vez:
 
 ```bash
 npm install -g @expertintegrado/pipedrive-mcp
@@ -103,10 +103,10 @@ E aponte o cliente para o caminho local:
 
 1. Acesse `https://<seu-dominio>.pipedrive.com`
 2. Clique na foto do seu perfil (canto superior direito)
-3. **Configuracoes** > **Preferencias pessoais** > **API**
+3. **Configurações** > **Preferências pessoais** > **API**
 4. Copie o **token da API pessoal**
 
-> O token da para quem o tiver o mesmo acesso que voce tem no Pipedrive. Nao compartilhe. Nao commite.
+> O token dá para quem o tiver o mesmo acesso que você tem no Pipedrive. Não compartilhe. Não commite.
 
 ## Configurando o cliente MCP
 
@@ -124,28 +124,28 @@ Depois feche e abra o Claude Desktop.
 
 ### Outros clientes MCP
 
-A mesma estrutura (`command`, `args`, `env`) funciona em Cursor, Continue, Cline e outros clientes compativeis com MCP.
+A mesma estrutura (`command`, `args`, `env`) funciona em Cursor, Continue, Cline e outros clientes compatíveis com MCP.
 
-Um exemplo completo de `claude_desktop_config.json` esta em [examples/claude_desktop_config.json](examples/claude_desktop_config.json).
+Um exemplo completo de `claude_desktop_config.json` está em [examples/claude_desktop_config.json](examples/claude_desktop_config.json).
 
-## Primeira sincronizacao
+## Primeira sincronização
 
-Apos configurar, peca ao Claude:
+Após configurar, peça ao Claude:
 
 > Execute `sync_all` do Pipedrive.
 
-O MCP vai gerar `config.js` na pasta onde o servidor esta rodando, contendo:
+O MCP vai gerar `config.js` na pasta onde o servidor está rodando, contendo:
 
 - Campos customizados de deals e contatos
-- Tipos de atividade (com aliases e duracoes padrao)
+- Tipos de atividade (com aliases e durações padrão)
 - Pipelines e etapas
-- Usuarios ativos
-- Dominio da empresa
+- Usuários ativos
+- Domínio da empresa
 
 Mais detalhes: [docs/SYNC.md](docs/SYNC.md).
 
-## Proximos passos
+## Próximos passos
 
-- Personalize regras de negocio no [CLAUDE.md.example](CLAUDE.md.example)
+- Personalize regras de negócio no [CLAUDE.md.example](CLAUDE.md.example)
 - Veja a lista completa de ferramentas em [docs/TOOLS.md](docs/TOOLS.md)
 - Problemas? [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)
