@@ -2,6 +2,13 @@
 
 Todas as mudanças relevantes deste projeto são documentadas aqui. O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [6.1.1] — 2026-04-22
+
+### Mudou
+- **README reescrito em formato "prompt-driven"**: o Passo 3 agora é um único prompt para colar no Claude Code, que pergunta o token e roda `claude mcp add` automaticamente. Bloco JSON manual preservado como `<details>` de fallback.
+- Cliente alvo primário do README passou de Claude Desktop para Claude Code (o CLI/app tem filesystem access e executa `claude mcp add`).
+- Primeira publicação via **GitHub Actions** (workflow `release.yml` disparado por push de tag `v*`).
+
 ## [6.1.0] — 2026-04-22
 
 ### Adicionado
