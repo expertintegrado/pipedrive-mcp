@@ -32,14 +32,15 @@ Guarde esse token — você vai colar no Passo 5.
 2. Descompacte numa pasta que não será apagada nunca — tipo sua pasta de **Documentos**. É dessa pasta que o Claude Code vai rodar o MCP pra sempre.
 3. A pasta descompactada se chama `pipedrive-mcp-main`. Pode renomear pra `pipedrive-mcp` se preferir (é opcional).
 
-## Passo 4 — Abra essa pasta no Claude Desktop
+## Passo 4 — Abra a pasta no Claude Desktop
 
 1. Abra o **Claude Desktop**
-2. Vá no **menu de projetos** (barra lateral) e escolha **"Abrir projeto"** (ou **"Adicionar projeto"** / **"Add project"**, dependendo da versão)
-3. Aponte para a pasta que você descompactou no Passo 3
-4. Depois que a pasta abrir no Claude Desktop, você vai ver o chat do Claude Code pronto, **operando dentro dessa pasta**
+2. Inicie uma **nova sessão** (nova conversa)
+3. Selecione a **pasta descompactada do Passo 3** como a pasta de trabalho da sessão
 
-> Não precisa abrir terminal nem digitar comandos. É tudo dentro do próprio Claude Desktop.
+Pronto — agora o Claude Desktop está operando dentro dessa pasta. O próximo passo é simplesmente mandar um comando no chat.
+
+> Não precisa abrir terminal nem digitar nada em linha de comando. É tudo dentro do próprio Claude Desktop.
 
 ## Passo 5 — Peça pro Claude Desktop instalar
 
