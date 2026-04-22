@@ -166,6 +166,10 @@ Se você:
 - Operações de exclusão são bloqueadas por padrão
 - Campos já preenchidos são protegidos contra sobrescrita acidental
 
+## Contribuindo
+
+Quer reportar um bug, sugerir uma melhoria ou contribuir com código? Veja [CONTRIBUTING.md](CONTRIBUTING.md) e, para o procedimento de release, [RELEASING.md](RELEASING.md).
+
 ## Licença
 
 [MIT](LICENSE) © Expert Integrado

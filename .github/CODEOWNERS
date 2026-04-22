@@ -1,0 +1,27 @@
+# Code Owners
+#
+# Usuários listados aqui são automaticamente solicitados para revisão
+# quando um PR toca os arquivos correspondentes.
+#
+# Sintaxe: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-security/customizing-your-repository/about-code-owners
+#
+# Para adicionar novos mantenedores, inclua o handle do GitHub em cada
+# linha relevante. Para criar um grupo, use @expertintegrado/<team-name>
+# depois de criar a equipe em https://github.com/orgs/expertintegrado/teams.
+
+# Default — qualquer arquivo do repo
+*                               @AsafeSilva
+
+# Código do servidor MCP — coração do projeto, revisão mais rigorosa
+/index.js                       @AsafeSilva
+/add-descriptions.js            @AsafeSilva
+
+# Configuração de release e CI — mudanças aqui afetam a publicação
+/.github/workflows/             @AsafeSilva
+/package.json                   @AsafeSilva
+
+# Documentação pública — pode ter revisores adicionais quando o time crescer
+/README.md                      @AsafeSilva
+/INSTALL.md                     @AsafeSilva
+/docs/                          @AsafeSilva
+/CHANGELOG.md                   @AsafeSilva
