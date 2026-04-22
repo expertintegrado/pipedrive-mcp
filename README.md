@@ -2,9 +2,9 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-Conecta o seu **Pipedrive** ao **Claude** (Claude Code ou Claude Desktop). Depois de instalar, você pode pedir ao Claude coisas como *"cria um deal pro cliente X"*, *"quais atividades eu tenho hoje?"*, *"adiciona uma nota no deal 123"* — e ele faz, direto no seu Pipedrive.
+Conecta o seu **Pipedrive** ao **Claude Code**. Depois de instalar, você pede coisas como *"cria um deal pro cliente X"*, *"quais atividades eu tenho hoje?"*, *"adiciona uma nota no deal 123"* — e ele faz, direto no seu Pipedrive.
 
-> A instalação é feita clonando este repositório (ainda não publicamos no npm). Todo o processo abaixo você faz uma vez só, em ~5 minutos.
+> Você **não precisa** rodar nenhum comando manual. O próprio Claude Code cuida da instalação — você só baixa o código, abre ele nessa pasta, e cola um prompt.
 
 ---
 
@@ -13,11 +13,7 @@ Conecta o seu **Pipedrive** ao **Claude** (Claude Code ou Claude Desktop). Depoi
 Baixe e instale (uma vez só, na sua máquina):
 
 - [Node.js 18 ou superior](https://nodejs.org/) — baixe e clique "Avançar" até o fim. **Reinicie o computador** depois.
-- Um cliente Claude (qualquer um serve, pode ser os dois):
-  - [Claude Desktop](https://claude.ai/download) — o aplicativo (recomendado pra quem não é dev)
-  - [Claude Code](https://claude.ai/download) — a versão de terminal
-
-> **Git é opcional.** Se você já usa git, pode clonar (veja o [guia técnico](INSTALL.md)). Senão, o Passo 3 baixa um ZIP direto — sem precisar instalar mais nada.
+- [Claude Code](https://claude.ai/download)
 
 ## Passo 2 — Pegue seu token do Pipedrive
 
@@ -26,67 +22,69 @@ Baixe e instale (uma vez só, na sua máquina):
 3. Vá em **Configurações** > **Preferências pessoais** > **API**
 4. Copie o **token da API pessoal** (uma sequência longa de letras e números)
 
-Guarde esse token — você vai colar no Passo 4.
+Guarde esse token — você vai colar no Passo 5.
 
 > **Cuidado:** esse token dá acesso ao SEU Pipedrive. Não compartilhe, não poste em grupo, não mande por e-mail. Cada pessoa deve pegar o próprio token.
 
 ## Passo 3 — Baixe o código
 
-1. **Baixe o ZIP:** [pipedrive-mcp-main.zip](https://github.com/expertintegrado/pipedrive-mcp/archive/refs/heads/main.zip)
-2. **Descompacte** numa pasta onde o MCP possa viver para sempre — tipo sua pasta de Documentos. **Não apague essa pasta depois** — é dela que o Claude vai rodar o MCP.
-3. A pasta descompactada vai se chamar `pipedrive-mcp-main`. Renomeie para `pipedrive-mcp` se preferir (é opcional).
-4. **Abra um terminal dentro dessa pasta** e rode:
+1. Clique aqui para baixar o ZIP: **[pipedrive-mcp-main.zip](https://github.com/expertintegrado/pipedrive-mcp/archive/refs/heads/main.zip)**
+2. Descompacte numa pasta que não será apagada nunca — tipo sua pasta de **Documentos**. É dessa pasta que o Claude Code vai rodar o MCP pra sempre.
+3. A pasta descompactada se chama `pipedrive-mcp-main`. Pode renomear pra `pipedrive-mcp` se preferir (é opcional).
 
-   ```bash
-   npm install
-   ```
+## Passo 4 — Abra o Claude Code nessa pasta
 
-   (isso instala as dependências do Node.js — demora uns 30 segundos)
+**Windows:**
 
-5. **Copie o caminho absoluto** da pasta — você vai precisar no Passo 4:
+- Abra a pasta que você descompactou no Windows Explorer
+- Clique com **botão direito** dentro dela → **"Abrir no Terminal"** (ou "Abrir janela do PowerShell aqui")
+- No terminal que abrir, digite:
+  ```
+  claude
+  ```
+  e tecle Enter.
 
-   ```bash
-   # macOS/Linux
-   pwd
+**macOS:**
 
-   # Windows (PowerShell)
-   (Get-Location).Path
-   ```
+- Abra o **Terminal** (Cmd+Espaço → digite "Terminal" → Enter)
+- Digite `cd ` (com espaço no fim), **arraste a pasta descompactada** pra dentro do terminal e tecle Enter
+- Agora digite:
+  ```
+  claude
+  ```
+  e tecle Enter.
 
-   Vai aparecer algo como `/Users/seu-nome/Documents/pipedrive-mcp` ou `C:\Users\seu-nome\Documents\pipedrive-mcp`. Anote.
+**Linux:**
 
-> **Prefere usar git?** `git clone https://github.com/expertintegrado/pipedrive-mcp.git && cd pipedrive-mcp && npm install`. Vantagem: atualizar depois é só `git pull` em vez de baixar o ZIP de novo.
+- Abra o terminal dentro da pasta descompactada
+- Digite `claude` e tecle Enter.
 
-## Passo 4 — Peça pro Claude configurar
+## Passo 5 — Peça pro Claude Code instalar
 
-Abra o Claude (Desktop ou Code) e **cole o texto abaixo**, trocando:
+Quando o Claude Code abrir, **cole este prompt**, trocando `COLE_SEU_TOKEN_AQUI` pelo token do Passo 2:
 
-- `COLE_SEU_TOKEN_AQUI` pelo token do Passo 2
-- `COLE_O_CAMINHO_ABSOLUTO_AQUI` pelo caminho do Passo 3 (até a pasta `pipedrive-mcp`)
+> Sou um usuário novo desse MCP e estou com a pasta do projeto aberta aqui. Faça a instalação completa pra mim: rode `npm install` nesta pasta pra baixar as dependências, descubra o caminho absoluto do `index.js` desta pasta, e configure o MCP do Pipedrive usando `claude mcp add` com escopo de usuário (`-s user`) pra funcionar em todos os meus projetos. O comando do MCP é `node` com o caminho absoluto do `index.js` como argumento. Use as variáveis de ambiente `PIPEDRIVE_API_KEY=COLE_SEU_TOKEN_AQUI` e `PIPEDRIVE_TIMEZONE=America/Sao_Paulo`. No final, confirme o que foi feito e me avise pra eu encerrar e abrir o Claude Code de novo.
 
-> Configure o MCP do Pipedrive da Expert Integrado no meu cliente Claude. Já clonei o repositório em `COLE_O_CAMINHO_ABSOLUTO_AQUI` e já rodei `npm install` lá dentro. Adicione um servidor MCP chamado `pipedrive` que execute `node` com o argumento `COLE_O_CAMINHO_ABSOLUTO_AQUI/index.js` (use barras normais `/` mesmo no Windows, ou barras duplas `\\`). Configure as variáveis de ambiente `PIPEDRIVE_API_KEY=COLE_SEU_TOKEN_AQUI` e `PIPEDRIVE_TIMEZONE=America/Sao_Paulo`. **Importante:** se eu estiver no Claude Code, coloque no arquivo `.mcp.json` na raiz do projeto (não em `settings.json` — o Claude Code ignora MCPs dentro do `settings.json`). Se eu estiver no Claude Desktop, use o `claude_desktop_config.json` (Windows: `%APPDATA%\Claude\`, macOS: `~/Library/Application Support/Claude/`, Linux: `~/.config/Claude/`). Depois me explique o que você fez e me avise que preciso reiniciar o Claude.
+O Claude Code vai:
 
-O Claude vai:
+1. Instalar as dependências (`npm install`)
+2. Descobrir o caminho da pasta automaticamente
+3. Configurar o MCP pra funcionar em qualquer projeto seu
+4. Te avisar pra reiniciar
 
-1. Localizar/criar o arquivo de configuração certo
-2. Adicionar o bloco `mcpServers` com o caminho e o token
-3. Te avisar para reiniciar
+Quando ele pedir, **encerre o Claude Code** (`Ctrl+D` ou feche a janela) e abra de novo.
 
-**Feche e abra o Claude de novo** quando ele pedir.
+## Passo 6 — Teste
 
-> Prefere fazer manualmente? Siga o [guia técnico de instalação](INSTALL.md).
-
-## Passo 5 — Teste
-
-Pergunte ao Claude:
+Com o Claude Code reaberto, pergunte:
 
 > Lista os meus deals abertos no Pipedrive.
 
 Se ele responder com os deals, tá funcionando. 🎉
 
-## Passo 6 — (Recomendado) Sincronize os dados da sua conta
+## Passo 7 — (Recomendado) Sincronize os dados da sua conta
 
-Peça ao Claude, **uma vez só**:
+Peça ao Claude Code, **uma vez só**:
 
 > Execute o `sync_all` do Pipedrive.
 
@@ -96,35 +94,23 @@ Isso faz o MCP aprender os campos, pipelines, etapas e tipos de atividade da sua
 
 ## Atualizando o MCP
 
-Quando sair versão nova:
+Quando sair versão nova, abra o Claude Code na pasta do MCP e peça:
 
-**Se você baixou por ZIP:**
+> Atualiza o MCP do Pipedrive pra última versão. Baixa o código novo do GitHub, substitui o conteúdo desta pasta e roda `npm install` de novo.
 
-1. Baixe o [ZIP novo](https://github.com/expertintegrado/pipedrive-mcp/archive/refs/heads/main.zip)
-2. Substitua o conteúdo da pasta antiga pelo conteúdo do ZIP novo (mantenha o **mesmo caminho** — senão você precisa reconfigurar o Claude)
-3. Abra o terminal na pasta e rode `npm install` de novo
+Depois encerre e abra o Claude Code novamente. Se alguma coisa mudou nos campos do Pipedrive, rode `sync_all` de novo.
 
-**Se você usou git:**
+## Não funcionou?
 
-```bash
-cd CAMINHO/pipedrive-mcp
-git pull
-npm install
-```
+Cole isso no Claude Code:
 
-Em ambos os casos, reinicie o Claude no fim. Se mudar algum campo esperado, rode `sync_all` de novo.
-
-## Não funcionou? Peça ajuda pro Claude
-
-Cole isso:
-
-> O MCP do Pipedrive da Expert Integrado não está funcionando. Verifica meu arquivo de configuração do Claude (se for Claude Code, confira o `.mcp.json` na raiz do projeto — MCPs dentro de `settings.json` não funcionam), confere se o Node.js está instalado (versão 18+), se a pasta do repositório existe e tem `node_modules`, e me ajuda a resolver. Se precisar, consulte o guia em `https://github.com/expertintegrado/pipedrive-mcp/blob/main/docs/TROUBLESHOOTING.md`.
+> O MCP do Pipedrive da Expert Integrado não está funcionando. Verifica se o MCP está listado (rode `/mcp`), confere se o Node.js 18+ está instalado, se a pasta do repositório tem `node_modules` dentro, e me ajuda a resolver. Se precisar, consulta o guia em `https://github.com/expertintegrado/pipedrive-mcp/blob/main/docs/TROUBLESHOOTING.md`.
 
 Se mesmo assim não rolar, [abra uma issue](https://github.com/expertintegrado/pipedrive-mcp/issues/new/choose) contando o que aconteceu.
 
 ## O que dá pra fazer
 
-Exemplos de coisas que você pode pedir depois de instalado:
+Exemplos depois de instalado:
 
 - *"Cria um deal chamado 'Empresa X - Plano Premium' pra pessoa Maria Silva"*
 - *"Quais atividades eu tenho agendadas pra hoje?"*
@@ -141,13 +127,20 @@ Por padrão usamos `America/Sao_Paulo`. Se você estiver em outro fuso, peça:
 
 > No MCP do Pipedrive, troca a variável `PIPEDRIVE_TIMEZONE` pra `America/New_York` (ou o fuso que você usar).
 
-## Instruções alternativas
+## Instalação alternativa (manual, Claude Desktop, contribuidor)
 
-Se você prefere instalar manualmente (sem passar pelo Claude) ou quer contribuir com o código, veja o [guia técnico de instalação](INSTALL.md).
+Se você:
+
+- Usa **Claude Desktop** (o aplicativo de chat, não o Claude Code)
+- Prefere editar os arquivos de configuração **na mão** (sem pedir pro Claude Code)
+- Quer clonar com **git** em vez de baixar ZIP (pra atualizar com `git pull`)
+- Vai **contribuir com o código**
+
+→ Siga o [guia técnico de instalação](INSTALL.md).
 
 ## Segurança
 
-- Seu token fica **apenas no seu computador**, dentro do arquivo de configuração do Claude
+- Seu token fica **apenas no seu computador**, dentro do arquivo de configuração do Claude Code
 - Nenhum dado é enviado pra servidor externo — o MCP roda localmente
 - Operações de exclusão são bloqueadas por padrão
 - Campos já preenchidos são protegidos contra sobrescrita acidental
