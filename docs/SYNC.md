@@ -46,7 +46,11 @@ Se membros da equipe não têm permissão de admin no Pipedrive para rodar `sync
 3. Distribui para os colegas
 4. Cada colega coloca o `config.js` na pasta do MCP
 
-> Se o MCP foi instalado via `npx` (Modo 1), a pasta de trabalho costuma ser a pasta atual quando o cliente MCP inicia — no Claude Desktop, geralmente `%USERPROFILE%` no Windows ou `~` no macOS. Peça ao Claude: *"onde o `config.js` foi salvo?"* — ele sabe.
+> Onde o `config.js` é salvo depende do modo de instalação:
+> - **Modo 1 (npx)** — na pasta de trabalho do cliente MCP, normalmente `%USERPROFILE%` no Windows ou `~` no macOS/Linux.
+> - **Modos 2/3 (local)** — dentro da pasta do repositório clonado.
+>
+> Na dúvida, pergunte ao Claude: *"onde o `config.js` foi salvo?"* — ele sabe.
 
 ## Fallback
 

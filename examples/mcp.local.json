@@ -1,8 +1,8 @@
 {
   "mcpServers": {
     "pipedrive": {
-      "command": "npx",
-      "args": ["-y", "@expertintegrado/pipedrive-mcp"],
+      "command": "node",
+      "args": ["CAMINHO_ABSOLUTO_PARA/pipedrive-mcp/index.js"],
       "env": {
         "PIPEDRIVE_API_KEY": "substitua_pelo_seu_token",
         "PIPEDRIVE_TIMEZONE": "America/Sao_Paulo"

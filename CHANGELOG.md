@@ -2,6 +2,18 @@
 
 Todas as mudanças relevantes deste projeto são documentadas aqui. O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [6.1.0] — 2026-04-22
+
+### Adicionado
+- **Pacote publicado no npm registry** como [`@expertintegrado/pipedrive-mcp`](https://www.npmjs.com/package/@expertintegrado/pipedrive-mcp). Agora é possível instalar direto via `npx` sem baixar código nem clonar repositório.
+- `examples/claude_desktop_config.local.json` e `examples/mcp.local.json` preservam os exemplos com `command: "node"` + caminho absoluto para quem preferir instalação local.
+- Seções no `TROUBLESHOOTING.md` para erros específicos do fluxo npx (`npm ERR! 404`, `spawn npx ENOENT`, cache).
+
+### Mudou
+- **Documentação refatorada para recomendar `npx` como método primário de instalação.** `README.md` agora tem 5 passos (era 7): remoção dos passos de download/ZIP e de "abrir pasta no Claude Desktop". Instalação cabe em um bloco JSON.
+- `INSTALL.md` reestruturado com três modos explícitos: Modo 1 (npx, recomendado), Modo 2 (ZIP), Modo 3 (git clone). Os dois últimos ficam para casos de ambiente offline/restrito ou desenvolvimento.
+- `examples/claude_desktop_config.json` e `examples/mcp.json` agora usam `command: "npx"` por padrão.
+
 ## [6.0.1] — 2026-04-22
 
 ### Mudou

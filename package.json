@@ -1,6 +1,6 @@
 {
   "name": "@expertintegrado/pipedrive-mcp",
-  "version": "6.0.1",
+  "version": "6.1.0",
   "description": "Servidor MCP para integracao com o CRM Pipedrive. Funciona com qualquer conta Pipedrive e qualquer cliente MCP (Claude Code, Claude Desktop, etc.).",
   "type": "module",
   "main": "index.js",
