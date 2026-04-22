@@ -2,18 +2,46 @@
 
 ## O MCP não aparece no Claude
 
-1. Confira que o JSON em `settings.json` / `claude_desktop_config.json` está válido (sem vírgula sobrando, aspas corretas).
-2. Reinicie completamente o Claude Code / Claude Desktop.
-3. No Claude Desktop, abra **Developer > Open MCP Log File** para ver erros de inicialização.
-4. No Claude Code, rode `/mcp` — deve listar `pipedrive` como conectado.
+1. Confira que o JSON do arquivo de configuração está válido (sem vírgula sobrando, aspas corretas). Um JSON quebrado é silenciosamente ignorado.
+2. Confira se o arquivo é o **certo pro seu cliente**:
+   - **Claude Code, projeto:** `.mcp.json` na raiz do projeto (**não** `.claude/settings.json`).
+   - **Claude Code, global:** `~/.claude.json` (use `claude mcp add` — veja [INSTALL.md](../INSTALL.md#claude-code--global-todos-os-projetos)).
+   - **Claude Desktop:** `claude_desktop_config.json` (caminho por SO em [INSTALL.md](../INSTALL.md#claude-desktop)).
+   > ⚠️ `mcpServers` dentro de `settings.json` no Claude Code **é ignorado**. Só funciona em `.mcp.json` ou `~/.claude.json`.
+3. Reinicie completamente o Claude Code / Claude Desktop (encerre a sessão/processo e abra de novo).
+4. No Claude Desktop, abra **Developer > Open MCP Log File** para ver erros de inicialização.
+5. No Claude Code, rode `/mcp` — deve listar `pipedrive` como conectado.
+
+## Erro: `Cannot find module` ou `MODULE_NOT_FOUND`
+
+O `npm install` não rodou (ou rodou na pasta errada). Entre na pasta do repositório clonado e rode:
+
+```bash
+cd CAMINHO/pipedrive-mcp
+npm install
+```
+
+Confira que a pasta `node_modules` existe dentro de `pipedrive-mcp/`. Reinicie o cliente depois.
+
+## Erro: `node: command not found` (ou equivalente no Windows)
+
+Node.js não está instalado ou não está no PATH. Rode `node --version` num terminal novo. Se der erro, [instale o Node 18+](https://nodejs.org/) e reinicie o computador.
+
+## Erro: caminho não encontrado no `args`
+
+O caminho absoluto para `index.js` está errado. Verifique:
+
+- Está apontando pra **`index.js`** (arquivo), não pra pasta.
+- No **Windows**, dentro do JSON, use `/` ou `\\` — **nunca** `\` sozinho (quebra o parser).
+- O arquivo existe: `node CAMINHO/pipedrive-mcp/index.js` deveria iniciar o servidor (ele fica parado aguardando stdio — pode matar com Ctrl+C).
 
 ## Erro: `PIPEDRIVE_API_KEY not set`
 
-O token não chegou como variável de ambiente. Verifique se o bloco `env` está dentro de `pipedrive` (não no nível raiz do JSON) e se o cliente foi reiniciado após salvar.
+O token não chegou como variável de ambiente. Verifique se o bloco `env` está **dentro** de `pipedrive` (não no nível raiz do JSON) e se o cliente foi reiniciado após salvar.
 
 ## Erro: `401 Unauthorized` ou `403 Forbidden`
 
-- Token expirado ou revogado. Gere outro em **Pipedrive > Configurações > Dados pessoais > API**.
+- Token expirado ou revogado. Gere outro em **Pipedrive > Configurações > Preferências pessoais > API**.
 - Token de conta sem permissão para a operação (ex: usuário não-admin tentando criar campos).
 
 ## Respostas mostram IDs em vez de nomes
@@ -41,9 +69,9 @@ Contas com muitos usuários/campos podem estourar o tempo. Tente novamente. Se p
 
 Rode `sync_all` de novo para regenerar o `config.js`. Depois reinicie o cliente MCP (o arquivo é lido no startup).
 
-## `npx` baixa o pacote toda vez — posso evitar?
+## Vi alguém usar `npx @expertintegrado/pipedrive-mcp` — por que não funciona?
 
-Sim, troque pelo Modo 2 ([INSTALL.md](../INSTALL.md#modo-2--npm-install--g)): `npm install -g @expertintegrado/pipedrive-mcp` e use `"command": "pipedrive-mcp"`.
+O pacote **ainda não está publicado** no npm registry. Por enquanto, instale clonando o repositório — veja [INSTALL.md](../INSTALL.md). Quando publicarmos, o `npx` passa a ser uma opção.
 
 ## Links das respostas apontam para o domínio errado
 
@@ -52,6 +80,14 @@ O domínio é detectado automaticamente via `/users/me` no startup. Se está err
 2. Rode `sync_all` para atualizar `config.js`.
 3. Reinicie o cliente.
 
+## Atualizei com `git pull` e deu erro
+
+Rode `npm install` de novo — pode ter entrado dependência nova. Depois reinicie o cliente.
+
 ## Não encontrou a resposta?
 
-[Abra uma issue](https://github.com/expertintegrado/pipedrive-mcp/issues) descrevendo o problema, a versão do Node (`node --version`) e qual cliente MCP você usa.
+[Abra uma issue](https://github.com/expertintegrado/pipedrive-mcp/issues) descrevendo:
+- O erro exato (copie do log)
+- Versão do Node (`node --version`)
+- Qual cliente MCP você usa (Claude Desktop, Claude Code, Cursor etc.)
+- Sistema operacional
