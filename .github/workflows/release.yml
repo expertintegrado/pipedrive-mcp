@@ -4,6 +4,10 @@ on:
   push:
     tags:
       - 'v*'
+  # Permite re-disparar manualmente (ex: quando o primeiro publish falha por
+  # token expirado e o token foi rotacionado). Roda sobre o ref selecionado;
+  # publica a versao que estiver em package.json nesse ref.
+  workflow_dispatch:
 
 jobs:
   publish:
