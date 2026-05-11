@@ -49,15 +49,26 @@ Siga esta sequência:
    Substituindo <TOKEN_QUE_EU_PASSEI> pelo token que eu respondi no
    passo 1.
 
-3. Confirme que o comando rodou sem erro e me avise pra encerrar
-   e reabrir o Claude Code pra ativar o MCP.
+3. Baixe e leia a documentação completa do MCP rodando:
+
+   npm view @expertintegrado/pipedrive-mcp readme
+
+   O README descreve o que o MCP faz, as ferramentas disponíveis,
+   exemplos de uso e regras importantes. Use esse conteúdo como
+   contexto pra me ajudar a usar o Pipedrive daqui pra frente —
+   você não precisa me mostrar o README inteiro, só absorver
+   internamente.
+
+4. Confirme que tudo rodou sem erro e me avise pra encerrar e
+   reabrir o Claude Code pra ativar o MCP.
 ````
 
 O Claude Code vai:
 
 1. Te perguntar o token → você cola o que pegou no Passo 2
 2. Rodar o comando de configuração automaticamente
-3. Te avisar pra reiniciar
+3. Baixar o README do pacote pra ter contexto completo do MCP
+4. Te avisar pra reiniciar
 
 Quando ele pedir, **feche e abra o Claude Code** (feche o app inteiro, não só a aba).
 

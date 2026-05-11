@@ -2,6 +2,11 @@
 
 Todas as mudanças relevantes deste projeto são documentadas aqui. O formato segue [Keep a Changelog](https://keepachangelog.com/pt-BR/1.1.0/) e o versionamento segue [SemVer](https://semver.org/lang/pt-BR/).
 
+## [6.1.2] — 2026-04-22
+
+### Mudou
+- **Prompt de instalação no README ganhou um passo extra:** depois de configurar o MCP, o Claude Code agora baixa e lê o README do pacote via `npm view @expertintegrado/pipedrive-mcp readme`. Isso dá ao Claude contexto completo sobre o MCP (ferramentas, exemplos, regras) já na sessão de instalação, antes do restart. Funciona independente do repositório GitHub ser público ou privado — depende apenas do pacote no npm estar acessível.
+
 ## [6.1.1] — 2026-04-22
 
 ### Mudou
